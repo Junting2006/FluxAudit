@@ -1,0 +1,431 @@
+{
+  "task_id": "review_novapay",
+  "meta": {
+    "model_version": "FluxAudit-RuleEngine-v1",
+    "data_sources": [
+      "Mock Chain Data",
+      "Whitepaper",
+      "Rule Engine"
+    ],
+    "data_mode": "mock",
+    "data_provenance": {
+      "team_wallet_pct": "mock",
+      "top_wallet_concentration_pct": "mock",
+      "liquidity_locked": "mock",
+      "source_similarity_pct": "mock",
+      "audit_report_available": "mock",
+      "abnormal_fund_flow": "mock",
+      "lp_owner": "mock",
+      "fund_flow_target": "mock",
+      "demo_profile": "mock",
+      "suppress_wallet_concentration": "mock",
+      "has_timelock": "mock",
+      "contract_verified": "mock"
+    },
+    "timestamp": 1788576928
+  },
+  "summary": {
+    "overall_risk_score": 85,
+    "risk_level": "HIGH",
+    "verdict": "代币分配与智能合约逻辑矛盾：文档声明团队持股 10%，实际链上团队钱包占比 82%。；锁仓承诺与链上合约约束矛盾：文档承诺锁仓 2.0 年，但链上合约未发现 TimeLock 约束。；声称的审计报告不可验证：文档声称已完成审计，但未能验证公开审计报告链接或下载记录。；流动性池权限未锁定：链上数据显示初始流动性未锁定，存在撤池或转移风险。；源码与高风险项目高度相似：合约源码与已知高风险项目相似度约 92%，需要人工复核。；资金流向异常：链上交易显示项目资金流向交易所热钱包或其他高风险地址。；文档承诺高收益（30%），存在不切实际收益承诺风险。"
+  },
+  "findings": [
+    {
+      "category": "TOKENOMICS_MISMATCH",
+      "severity": "CRITICAL",
+      "title": "代币分配与智能合约逻辑矛盾",
+      "description": "文档声明团队持股 10%，实际链上团队钱包占比 82%。",
+      "evidence": "Whitepaper tokenomics vs chain team_wallet_pct=82"
+    },
+    {
+      "category": "TIMELOCK_MISSING",
+      "severity": "CRITICAL",
+      "title": "锁仓承诺与链上合约约束矛盾",
+      "description": "文档承诺锁仓 2.0 年，但链上合约未发现 TimeLock 约束。",
+      "evidence": "Whitepaper lockup claim vs chain has_timelock=False"
+    },
+    {
+      "category": "MISSING_AUDIT",
+      "severity": "MEDIUM",
+      "title": "声称的审计报告不可验证",
+      "description": "文档声称已完成审计，但未能验证公开审计报告链接或下载记录。",
+      "evidence": "Whitepaper audit claim vs chain audit_report_available=False"
+    },
+    {
+      "category": "LIQUIDITY_UNLOCKED",
+      "severity": "CRITICAL",
+      "title": "流动性池权限未锁定",
+      "description": "链上数据显示初始流动性未锁定，存在撤池或转移风险。",
+      "evidence": "chain liquidity_locked=False; lp_owner=deployer 0x4f3b..."
+    },
+    {
+      "category": "CODE_FORKED",
+      "severity": "HIGH",
+      "title": "源码与高风险项目高度相似",
+      "description": "合约源码与已知高风险项目相似度约 92%，需要人工复核。",
+      "evidence": "chain source_similarity_pct=92"
+    },
+    {
+      "category": "FUND_FLOW_ABNORMAL",
+      "severity": "HIGH",
+      "title": "资金流向异常",
+      "description": "链上交易显示项目资金流向交易所热钱包或其他高风险地址。",
+      "evidence": "chain abnormal_fund_flow=True; target=exchange_hot_wallet"
+    }
+  ],
+  "proof_data": {
+    "hash_algorithm": "ethereum-keccak256",
+    "hash_version": "keccak-v1",
+    "manifest_version": "proof-manifest-v1",
+    "steps": [
+      {
+        "task_id": "review_novapay",
+        "step_index": 0,
+        "source": "BACKEND",
+        "agent": "Backend",
+        "current_step": "INPUT_VALIDATED",
+        "message": "任务入参已校验。",
+        "evidence": [],
+        "input_hash": "0x7c6e4a97c0a344d9ae845b8e71a5bd6520294fa6374822530e6903dc1c945241",
+        "output_hash": "0xe0a7d443f12051fd841e5d532d4f88126687a97c25a8b0deb88632d60f61f88b",
+        "input": {
+          "target_type": "HYBRID",
+          "contract_address": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+          "chain_id": 11155111
+        },
+        "output": {
+          "valid": true
+        },
+        "timestamp": 1788576928793,
+        "timestamp_ms": 1788576928793,
+        "previous_step_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "hash_content": "{\"agent\":\"Backend\",\"current_step\":\"INPUT_VALIDATED\",\"evidence\":[],\"input_hash\":\"0x7c6e4a97c0a344d9ae845b8e71a5bd6520294fa6374822530e6903dc1c945241\",\"message\":\"任务入参已校验。\",\"output_hash\":\"0xe0a7d443f12051fd841e5d532d4f88126687a97c25a8b0deb88632d60f61f88b\",\"source\":\"BACKEND\",\"step_index\":0,\"task_id\":\"review_novapay\"}",
+        "step_hash": "0xdbe89fba35d0843e28310087f7521932e625141b97c89440d3cce77fe10a1d42",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_novapay",
+        "step_index": 1,
+        "source": "BACKEND",
+        "agent": "ChainAgent",
+        "current_step": "CHAIN_FETCHED",
+        "message": "链上数据已拉取：团队钱包 82%，头部集中度 82%，Timelock=False，合约已验证=True（合成数据）",
+        "evidence": [],
+        "input_hash": "0xf92536e8484c3202bf6a19bbbee8d1e7def9b1293e13d24d9b65c539c3d0b13a",
+        "output_hash": "0xd958b09306d48d419e3adece75163f6d688b40ca40f191b027a2075ce1bb6db3",
+        "input": {
+          "contract_address": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+          "chain_id": 11155111
+        },
+        "output": {
+          "team_wallet_pct": 82,
+          "top_wallet_concentration_pct": 82,
+          "liquidity_locked": false,
+          "source_similarity_pct": 92,
+          "audit_report_available": false,
+          "abnormal_fund_flow": true,
+          "lp_owner": "deployer 0x4f3b...",
+          "fund_flow_target": "exchange_hot_wallet",
+          "demo_profile": "novapay_high_risk",
+          "suppress_wallet_concentration": true,
+          "has_timelock": false,
+          "contract_verified": true,
+          "_mock": true,
+          "_mode": "mock",
+          "provenance": {
+            "team_wallet_pct": "mock",
+            "top_wallet_concentration_pct": "mock",
+            "liquidity_locked": "mock",
+            "source_similarity_pct": "mock",
+            "audit_report_available": "mock",
+            "abnormal_fund_flow": "mock",
+            "lp_owner": "mock",
+            "fund_flow_target": "mock",
+            "demo_profile": "mock",
+            "suppress_wallet_concentration": "mock",
+            "has_timelock": "mock",
+            "contract_verified": "mock"
+          }
+        },
+        "timestamp": 1788576928794,
+        "timestamp_ms": 1788576928794,
+        "previous_step_hash": "0xdbe89fba35d0843e28310087f7521932e625141b97c89440d3cce77fe10a1d42",
+        "hash_content": "{\"agent\":\"ChainAgent\",\"current_step\":\"CHAIN_FETCHED\",\"evidence\":[],\"input_hash\":\"0xf92536e8484c3202bf6a19bbbee8d1e7def9b1293e13d24d9b65c539c3d0b13a\",\"message\":\"链上数据已拉取：团队钱包 82%，头部集中度 82%，Timelock=False，合约已验证=True（合成数据）\",\"output_hash\":\"0xd958b09306d48d419e3adece75163f6d688b40ca40f191b027a2075ce1bb6db3\",\"source\":\"BACKEND\",\"step_index\":1,\"task_id\":\"review_novapay\"}",
+        "step_hash": "0x113fbd9fbf1e4d0cdced5a31c9c709e09230868dacc58ee403027b41379e2bfa",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_novapay",
+        "step_index": 2,
+        "source": "AI",
+        "agent": "DocAgent",
+        "current_step": "DOC_PARSING",
+        "message": "DocAgent 完成文档解析，提取声明 4 条。",
+        "evidence": [],
+        "input_hash": "0x0c8e173f6e189d29faad97f0055e511fd9b3fb716797631f5080a4e503f18d4e",
+        "output_hash": "0x3234b8123bbfe5b9ffbd34559dcf5a01368258a3c83de5f112c7887dba9b0743",
+        "input": {
+          "previous_step_hash": "0x113fbd9fbf1e4d0cdced5a31c9c709e09230868dacc58ee403027b41379e2bfa"
+        },
+        "output": {
+          "team_allocation_pct": 10,
+          "has_lockup_claim": true,
+          "lockup_years": 2.0,
+          "audit_claimed": true,
+          "audit_firm": "certik",
+          "high_yield_promise": true,
+          "yield_pct": 30,
+          "statements": [
+            {
+              "field": "team_allocation",
+              "value_pct": 10,
+              "raw_snippet": "团队/Team 占比 10%"
+            },
+            {
+              "field": "lockup",
+              "value_years": 2.0,
+              "raw_snippet": "锁仓 2 年"
+            },
+            {
+              "field": "audit",
+              "value": true,
+              "firm": "certik"
+            },
+            {
+              "field": "yield_promise",
+              "value_pct": 30,
+              "high_risk": true
+            }
+          ]
+        },
+        "timestamp": 1788576928795,
+        "timestamp_ms": 1788576928795,
+        "previous_step_hash": "0x113fbd9fbf1e4d0cdced5a31c9c709e09230868dacc58ee403027b41379e2bfa",
+        "hash_content": "{\"agent\":\"DocAgent\",\"current_step\":\"DOC_PARSING\",\"evidence\":[],\"input_hash\":\"0x0c8e173f6e189d29faad97f0055e511fd9b3fb716797631f5080a4e503f18d4e\",\"message\":\"DocAgent 完成文档解析，提取声明 4 条。\",\"output_hash\":\"0x3234b8123bbfe5b9ffbd34559dcf5a01368258a3c83de5f112c7887dba9b0743\",\"source\":\"AI\",\"step_index\":2,\"task_id\":\"review_novapay\"}",
+        "step_hash": "0xbbc075db98d0af282678b095307c22392c46f88b9062fcc49bf0087af2bbdc44",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_novapay",
+        "step_index": 3,
+        "source": "AI",
+        "agent": "CrossCheckAgent",
+        "current_step": "CROSS_CHECKING",
+        "message": "CrossCheckAgent 完成文档-链上交叉核验，发现矛盾 6 条。",
+        "evidence": [
+          "Whitepaper tokenomics vs chain team_wallet_pct=82",
+          "Whitepaper lockup claim vs chain has_timelock=False",
+          "Whitepaper audit claim vs chain audit_report_available=False",
+          "chain liquidity_locked=False; lp_owner=deployer 0x4f3b...",
+          "chain source_similarity_pct=92",
+          "chain abnormal_fund_flow=True; target=exchange_hot_wallet"
+        ],
+        "input_hash": "0x9c4e4ff34ca2c72262b230da83a7ecd86ea6b2fe5545fc9259a354d5e844e1f1",
+        "output_hash": "0xe8a984226997285acb0aa0f4626216774b6bee1b7e007a9c9ba1df9d5fcb3bbd",
+        "input": {
+          "previous_step_hash": "0xbbc075db98d0af282678b095307c22392c46f88b9062fcc49bf0087af2bbdc44"
+        },
+        "output": [
+          {
+            "category": "TOKENOMICS_MISMATCH",
+            "severity": "CRITICAL",
+            "title": "代币分配与智能合约逻辑矛盾",
+            "description": "文档声明团队持股 10%，实际链上团队钱包占比 82%。",
+            "evidence": "Whitepaper tokenomics vs chain team_wallet_pct=82",
+            "risk_weight": 20
+          },
+          {
+            "category": "TIMELOCK_MISSING",
+            "severity": "CRITICAL",
+            "title": "锁仓承诺与链上合约约束矛盾",
+            "description": "文档承诺锁仓 2.0 年，但链上合约未发现 TimeLock 约束。",
+            "evidence": "Whitepaper lockup claim vs chain has_timelock=False",
+            "risk_weight": 15
+          },
+          {
+            "category": "MISSING_AUDIT",
+            "severity": "MEDIUM",
+            "title": "声称的审计报告不可验证",
+            "description": "文档声称已完成审计，但未能验证公开审计报告链接或下载记录。",
+            "evidence": "Whitepaper audit claim vs chain audit_report_available=False",
+            "risk_weight": 5
+          },
+          {
+            "category": "LIQUIDITY_UNLOCKED",
+            "severity": "CRITICAL",
+            "title": "流动性池权限未锁定",
+            "description": "链上数据显示初始流动性未锁定，存在撤池或转移风险。",
+            "evidence": "chain liquidity_locked=False; lp_owner=deployer 0x4f3b...",
+            "risk_weight": 15
+          },
+          {
+            "category": "CODE_FORKED",
+            "severity": "HIGH",
+            "title": "源码与高风险项目高度相似",
+            "description": "合约源码与已知高风险项目相似度约 92%，需要人工复核。",
+            "evidence": "chain source_similarity_pct=92",
+            "risk_weight": 10
+          },
+          {
+            "category": "FUND_FLOW_ABNORMAL",
+            "severity": "HIGH",
+            "title": "资金流向异常",
+            "description": "链上交易显示项目资金流向交易所热钱包或其他高风险地址。",
+            "evidence": "chain abnormal_fund_flow=True; target=exchange_hot_wallet",
+            "risk_weight": 10
+          }
+        ],
+        "timestamp": 1788576928795,
+        "timestamp_ms": 1788576928795,
+        "previous_step_hash": "0xbbc075db98d0af282678b095307c22392c46f88b9062fcc49bf0087af2bbdc44",
+        "hash_content": "{\"agent\":\"CrossCheckAgent\",\"current_step\":\"CROSS_CHECKING\",\"evidence\":[\"Whitepaper tokenomics vs chain team_wallet_pct=82\",\"Whitepaper lockup claim vs chain has_timelock=False\",\"Whitepaper audit claim vs chain audit_report_available=False\",\"chain liquidity_locked=False; lp_owner=deployer 0x4f3b...\",\"chain source_similarity_pct=92\",\"chain abnormal_fund_flow=True; target=exchange_hot_wallet\"],\"input_hash\":\"0x9c4e4ff34ca2c72262b230da83a7ecd86ea6b2fe5545fc9259a354d5e844e1f1\",\"message\":\"CrossCheckAgent 完成文档-链上交叉核验，发现矛盾 6 条。\",\"output_hash\":\"0xe8a984226997285acb0aa0f4626216774b6bee1b7e007a9c9ba1df9d5fcb3bbd\",\"source\":\"AI\",\"step_index\":3,\"task_id\":\"review_novapay\"}",
+        "step_hash": "0xc021630f7d0d33098704a0d2e1387a331a745b686ac07cb999fbeeff767e361a",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_novapay",
+        "step_index": 4,
+        "source": "AI",
+        "agent": "RiskAgent",
+        "current_step": "RISK_SCORING",
+        "message": "RiskAgent 综合打分：85 分，风险等级 HIGH。",
+        "evidence": [],
+        "input_hash": "0xff12841c70971c239e3fc1f1cd07617264b3e0f947a27128f2e1fa6e12da9c2d",
+        "output_hash": "0x6113e4a868dd62a342a9b3b57f2d9321f6cc8987a9e54f37c26c4a6d0dccd690",
+        "input": {
+          "previous_step_hash": "0xc021630f7d0d33098704a0d2e1387a331a745b686ac07cb999fbeeff767e361a"
+        },
+        "output": {
+          "risk_score": 85,
+          "risk_level": "HIGH",
+          "risk_reasons": [
+            "代币分配与智能合约逻辑矛盾：文档声明团队持股 10%，实际链上团队钱包占比 82%。",
+            "锁仓承诺与链上合约约束矛盾：文档承诺锁仓 2.0 年，但链上合约未发现 TimeLock 约束。",
+            "声称的审计报告不可验证：文档声称已完成审计，但未能验证公开审计报告链接或下载记录。",
+            "流动性池权限未锁定：链上数据显示初始流动性未锁定，存在撤池或转移风险。",
+            "源码与高风险项目高度相似：合约源码与已知高风险项目相似度约 92%，需要人工复核。",
+            "资金流向异常：链上交易显示项目资金流向交易所热钱包或其他高风险地址。",
+            "文档承诺高收益（30%），存在不切实际收益承诺风险。"
+          ]
+        },
+        "timestamp": 1788576928795,
+        "timestamp_ms": 1788576928795,
+        "previous_step_hash": "0xc021630f7d0d33098704a0d2e1387a331a745b686ac07cb999fbeeff767e361a",
+        "hash_content": "{\"agent\":\"RiskAgent\",\"current_step\":\"RISK_SCORING\",\"evidence\":[],\"input_hash\":\"0xff12841c70971c239e3fc1f1cd07617264b3e0f947a27128f2e1fa6e12da9c2d\",\"message\":\"RiskAgent 综合打分：85 分，风险等级 HIGH。\",\"output_hash\":\"0x6113e4a868dd62a342a9b3b57f2d9321f6cc8987a9e54f37c26c4a6d0dccd690\",\"source\":\"AI\",\"step_index\":4,\"task_id\":\"review_novapay\"}",
+        "step_hash": "0x8db5e200df1974549af5e560c75352649cffdaac3581cfe7938c7fc59165f766",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_novapay",
+        "step_index": 5,
+        "source": "BACKEND",
+        "agent": "ReportBuilder",
+        "current_step": "REPORT_ASSEMBLED",
+        "message": "结构化审计报告已组装。",
+        "evidence": [],
+        "input_hash": "0x139f35d397b3b8fa476682cd9d01273dba306ef41b839aa73f33a2df1c91f36f",
+        "output_hash": "0x00d7150ec25c0e53928b365b43101a977db89612fd8114d291259dced540dca2",
+        "input": {
+          "step_hashes": [
+            "0xdbe89fba35d0843e28310087f7521932e625141b97c89440d3cce77fe10a1d42",
+            "0x113fbd9fbf1e4d0cdced5a31c9c709e09230868dacc58ee403027b41379e2bfa",
+            "0xbbc075db98d0af282678b095307c22392c46f88b9062fcc49bf0087af2bbdc44",
+            "0xc021630f7d0d33098704a0d2e1387a331a745b686ac07cb999fbeeff767e361a",
+            "0x8db5e200df1974549af5e560c75352649cffdaac3581cfe7938c7fc59165f766"
+          ]
+        },
+        "output": {
+          "task_id": "review_novapay",
+          "risk_score": 85,
+          "findings_count": 6
+        },
+        "timestamp": 1788576928795,
+        "timestamp_ms": 1788576928795,
+        "previous_step_hash": "0x8db5e200df1974549af5e560c75352649cffdaac3581cfe7938c7fc59165f766",
+        "hash_content": "{\"agent\":\"ReportBuilder\",\"current_step\":\"REPORT_ASSEMBLED\",\"evidence\":[],\"input_hash\":\"0x139f35d397b3b8fa476682cd9d01273dba306ef41b839aa73f33a2df1c91f36f\",\"message\":\"结构化审计报告已组装。\",\"output_hash\":\"0x00d7150ec25c0e53928b365b43101a977db89612fd8114d291259dced540dca2\",\"source\":\"BACKEND\",\"step_index\":5,\"task_id\":\"review_novapay\"}",
+        "step_hash": "0x84ef2a8157396130d08bb9c60db5e2d0c49fade5589c32a9cf4374514c17352c",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_novapay",
+        "step_index": 6,
+        "source": "BACKEND",
+        "agent": "ProofCompiler",
+        "current_step": "PROOF_MANIFEST_COMPILED",
+        "message": "七步证明清单已编译并校验。",
+        "evidence": [
+          "prior_steps:6",
+          "report_payload_hash:0xb48189fac11924376de31a49bd1c9623410f5894e7802fdbf3b887bd11a29496"
+        ],
+        "input_hash": "0x6a61f530da427fbc5df85fb47d6d97ae990409f83d9f9ece86aca75b9008ffed",
+        "output_hash": "0xf99e4aee4139e95cf9da6d6904241062c93b92469230b7bca7e3132bb64673f1",
+        "input": {
+          "ordered_prior_step_hashes": [
+            "0xdbe89fba35d0843e28310087f7521932e625141b97c89440d3cce77fe10a1d42",
+            "0x113fbd9fbf1e4d0cdced5a31c9c709e09230868dacc58ee403027b41379e2bfa",
+            "0xbbc075db98d0af282678b095307c22392c46f88b9062fcc49bf0087af2bbdc44",
+            "0xc021630f7d0d33098704a0d2e1387a331a745b686ac07cb999fbeeff767e361a",
+            "0x8db5e200df1974549af5e560c75352649cffdaac3581cfe7938c7fc59165f766",
+            "0x84ef2a8157396130d08bb9c60db5e2d0c49fade5589c32a9cf4374514c17352c"
+          ],
+          "report_payload_hash": "0xb48189fac11924376de31a49bd1c9623410f5894e7802fdbf3b887bd11a29496"
+        },
+        "output": {
+          "manifest_version": "proof-manifest-v1",
+          "hash_algorithm": "ethereum-keccak256",
+          "hash_version": "keccak-v1",
+          "ordered_steps": [
+            "INPUT_VALIDATED",
+            "CHAIN_FETCHED",
+            "DOC_PARSING",
+            "CROSS_CHECKING",
+            "RISK_SCORING",
+            "REPORT_ASSEMBLED",
+            "PROOF_MANIFEST_COMPILED"
+          ],
+          "prior_step_count": 6,
+          "final_step_count": 7,
+          "report_payload_hash": "0xb48189fac11924376de31a49bd1c9623410f5894e7802fdbf3b887bd11a29496"
+        },
+        "timestamp": 1788576928795,
+        "timestamp_ms": 1788576928795,
+        "previous_step_hash": "0x84ef2a8157396130d08bb9c60db5e2d0c49fade5589c32a9cf4374514c17352c",
+        "hash_content": "{\"agent\":\"ProofCompiler\",\"current_step\":\"PROOF_MANIFEST_COMPILED\",\"evidence\":[\"prior_steps:6\",\"report_payload_hash:0xb48189fac11924376de31a49bd1c9623410f5894e7802fdbf3b887bd11a29496\"],\"input_hash\":\"0x6a61f530da427fbc5df85fb47d6d97ae990409f83d9f9ece86aca75b9008ffed\",\"message\":\"七步证明清单已编译并校验。\",\"output_hash\":\"0xf99e4aee4139e95cf9da6d6904241062c93b92469230b7bca7e3132bb64673f1\",\"source\":\"BACKEND\",\"step_index\":6,\"task_id\":\"review_novapay\"}",
+        "step_hash": "0x588b5cfdfab8a2b770e790557e7db5aefd173c56fd3f58b1eb2e377afcccfa7a",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      }
+    ],
+    "step_hashes": [
+      "0xdbe89fba35d0843e28310087f7521932e625141b97c89440d3cce77fe10a1d42",
+      "0x113fbd9fbf1e4d0cdced5a31c9c709e09230868dacc58ee403027b41379e2bfa",
+      "0xbbc075db98d0af282678b095307c22392c46f88b9062fcc49bf0087af2bbdc44",
+      "0xc021630f7d0d33098704a0d2e1387a331a745b686ac07cb999fbeeff767e361a",
+      "0x8db5e200df1974549af5e560c75352649cffdaac3581cfe7938c7fc59165f766",
+      "0x84ef2a8157396130d08bb9c60db5e2d0c49fade5589c32a9cf4374514c17352c",
+      "0x588b5cfdfab8a2b770e790557e7db5aefd173c56fd3f58b1eb2e377afcccfa7a"
+    ],
+    "reasoning_step_hashes": [
+      "0xbbc075db98d0af282678b095307c22392c46f88b9062fcc49bf0087af2bbdc44",
+      "0xc021630f7d0d33098704a0d2e1387a331a745b686ac07cb999fbeeff767e361a",
+      "0x8db5e200df1974549af5e560c75352649cffdaac3581cfe7938c7fc59165f766"
+    ],
+    "backend_step_hashes": [
+      "0xdbe89fba35d0843e28310087f7521932e625141b97c89440d3cce77fe10a1d42",
+      "0x113fbd9fbf1e4d0cdced5a31c9c709e09230868dacc58ee403027b41379e2bfa",
+      "0x84ef2a8157396130d08bb9c60db5e2d0c49fade5589c32a9cf4374514c17352c",
+      "0x588b5cfdfab8a2b770e790557e7db5aefd173c56fd3f58b1eb2e377afcccfa7a"
+    ],
+    "manifest_step_hash": "0x588b5cfdfab8a2b770e790557e7db5aefd173c56fd3f58b1eb2e377afcccfa7a",
+    "report_payload_hash": "0xb48189fac11924376de31a49bd1c9623410f5894e7802fdbf3b887bd11a29496",
+    "merkle_root": "0x0ed187aff0d0e6e9a190fea4ac458b1986e38969faee732b4f0acac3586fa64f",
+    "report_hash": "0x98265bfbf5ba86ba364be6f52801db3ca058b66cffa938c9f811e6286050df95"
+  },
+  "disclaimer": "本报告由 FluxAudit 辅助诊断生成，基于测试与公开数据，不构成财务投资建议。"
+}

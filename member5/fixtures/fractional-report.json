@@ -1,0 +1,403 @@
+{
+  "task_id": "review_fractional",
+  "meta": {
+    "model_version": "FluxAudit-RuleEngine-v1",
+    "data_sources": [
+      "Mock Chain Data",
+      "Whitepaper",
+      "Rule Engine"
+    ],
+    "data_mode": "mock",
+    "data_provenance": {
+      "team_wallet_pct": "mock",
+      "top_wallet_concentration_pct": "mock",
+      "liquidity_locked": "mock",
+      "source_similarity_pct": "mock",
+      "audit_report_available": "mock",
+      "abnormal_fund_flow": "mock",
+      "lp_owner": "mock",
+      "fund_flow_target": "mock",
+      "demo_profile": "mock",
+      "suppress_wallet_concentration": "mock",
+      "has_timelock": "mock",
+      "contract_verified": "mock"
+    },
+    "timestamp": 1788576928
+  },
+  "summary": {
+    "overall_risk_score": 70,
+    "risk_level": "HIGH",
+    "verdict": "代币分配与智能合约逻辑矛盾：文档声明团队持股 10%，实际链上团队钱包占比 82%。；锁仓承诺与链上合约约束矛盾：文档承诺锁仓 0.5 年，但链上合约未发现 TimeLock 约束。；流动性池权限未锁定：链上数据显示初始流动性未锁定，存在撤池或转移风险。；源码与高风险项目高度相似：合约源码与已知高风险项目相似度约 92%，需要人工复核。；资金流向异常：链上交易显示项目资金流向交易所热钱包或其他高风险地址。"
+  },
+  "findings": [
+    {
+      "category": "TOKENOMICS_MISMATCH",
+      "severity": "CRITICAL",
+      "title": "代币分配与智能合约逻辑矛盾",
+      "description": "文档声明团队持股 10%，实际链上团队钱包占比 82%。",
+      "evidence": "Whitepaper tokenomics vs chain team_wallet_pct=82"
+    },
+    {
+      "category": "TIMELOCK_MISSING",
+      "severity": "CRITICAL",
+      "title": "锁仓承诺与链上合约约束矛盾",
+      "description": "文档承诺锁仓 0.5 年，但链上合约未发现 TimeLock 约束。",
+      "evidence": "Whitepaper lockup claim vs chain has_timelock=False"
+    },
+    {
+      "category": "LIQUIDITY_UNLOCKED",
+      "severity": "CRITICAL",
+      "title": "流动性池权限未锁定",
+      "description": "链上数据显示初始流动性未锁定，存在撤池或转移风险。",
+      "evidence": "chain liquidity_locked=False; lp_owner=deployer 0x4f3b..."
+    },
+    {
+      "category": "CODE_FORKED",
+      "severity": "HIGH",
+      "title": "源码与高风险项目高度相似",
+      "description": "合约源码与已知高风险项目相似度约 92%，需要人工复核。",
+      "evidence": "chain source_similarity_pct=92"
+    },
+    {
+      "category": "FUND_FLOW_ABNORMAL",
+      "severity": "HIGH",
+      "title": "资金流向异常",
+      "description": "链上交易显示项目资金流向交易所热钱包或其他高风险地址。",
+      "evidence": "chain abnormal_fund_flow=True; target=exchange_hot_wallet"
+    }
+  ],
+  "proof_data": {
+    "hash_algorithm": "ethereum-keccak256",
+    "hash_version": "keccak-v1",
+    "manifest_version": "proof-manifest-v1",
+    "steps": [
+      {
+        "task_id": "review_fractional",
+        "step_index": 0,
+        "source": "BACKEND",
+        "agent": "Backend",
+        "current_step": "INPUT_VALIDATED",
+        "message": "任务入参已校验。",
+        "evidence": [],
+        "input_hash": "0x7c6e4a97c0a344d9ae845b8e71a5bd6520294fa6374822530e6903dc1c945241",
+        "output_hash": "0xe0a7d443f12051fd841e5d532d4f88126687a97c25a8b0deb88632d60f61f88b",
+        "input": {
+          "target_type": "HYBRID",
+          "contract_address": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+          "chain_id": 11155111
+        },
+        "output": {
+          "valid": true
+        },
+        "timestamp": 1788576928796,
+        "timestamp_ms": 1788576928796,
+        "previous_step_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "hash_content": "{\"agent\":\"Backend\",\"current_step\":\"INPUT_VALIDATED\",\"evidence\":[],\"input_hash\":\"0x7c6e4a97c0a344d9ae845b8e71a5bd6520294fa6374822530e6903dc1c945241\",\"message\":\"任务入参已校验。\",\"output_hash\":\"0xe0a7d443f12051fd841e5d532d4f88126687a97c25a8b0deb88632d60f61f88b\",\"source\":\"BACKEND\",\"step_index\":0,\"task_id\":\"review_fractional\"}",
+        "step_hash": "0xecea4854dfb156817e0895bdf1655c40052eb72971a629dff142f77c1b096d10",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_fractional",
+        "step_index": 1,
+        "source": "BACKEND",
+        "agent": "ChainAgent",
+        "current_step": "CHAIN_FETCHED",
+        "message": "链上数据已拉取：团队钱包 82%，头部集中度 82%，Timelock=False，合约已验证=True（合成数据）",
+        "evidence": [],
+        "input_hash": "0xf92536e8484c3202bf6a19bbbee8d1e7def9b1293e13d24d9b65c539c3d0b13a",
+        "output_hash": "0xd958b09306d48d419e3adece75163f6d688b40ca40f191b027a2075ce1bb6db3",
+        "input": {
+          "contract_address": "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+          "chain_id": 11155111
+        },
+        "output": {
+          "team_wallet_pct": 82,
+          "top_wallet_concentration_pct": 82,
+          "liquidity_locked": false,
+          "source_similarity_pct": 92,
+          "audit_report_available": false,
+          "abnormal_fund_flow": true,
+          "lp_owner": "deployer 0x4f3b...",
+          "fund_flow_target": "exchange_hot_wallet",
+          "demo_profile": "novapay_high_risk",
+          "suppress_wallet_concentration": true,
+          "has_timelock": false,
+          "contract_verified": true,
+          "_mock": true,
+          "_mode": "mock",
+          "provenance": {
+            "team_wallet_pct": "mock",
+            "top_wallet_concentration_pct": "mock",
+            "liquidity_locked": "mock",
+            "source_similarity_pct": "mock",
+            "audit_report_available": "mock",
+            "abnormal_fund_flow": "mock",
+            "lp_owner": "mock",
+            "fund_flow_target": "mock",
+            "demo_profile": "mock",
+            "suppress_wallet_concentration": "mock",
+            "has_timelock": "mock",
+            "contract_verified": "mock"
+          }
+        },
+        "timestamp": 1788576928797,
+        "timestamp_ms": 1788576928797,
+        "previous_step_hash": "0xecea4854dfb156817e0895bdf1655c40052eb72971a629dff142f77c1b096d10",
+        "hash_content": "{\"agent\":\"ChainAgent\",\"current_step\":\"CHAIN_FETCHED\",\"evidence\":[],\"input_hash\":\"0xf92536e8484c3202bf6a19bbbee8d1e7def9b1293e13d24d9b65c539c3d0b13a\",\"message\":\"链上数据已拉取：团队钱包 82%，头部集中度 82%，Timelock=False，合约已验证=True（合成数据）\",\"output_hash\":\"0xd958b09306d48d419e3adece75163f6d688b40ca40f191b027a2075ce1bb6db3\",\"source\":\"BACKEND\",\"step_index\":1,\"task_id\":\"review_fractional\"}",
+        "step_hash": "0xa65321d214f1d53642ae1bd91fa3b96b8f3261d7aefa4c9762b849f7b2094a14",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_fractional",
+        "step_index": 2,
+        "source": "AI",
+        "agent": "DocAgent",
+        "current_step": "DOC_PARSING",
+        "message": "DocAgent 完成文档解析，提取声明 2 条。",
+        "evidence": [],
+        "input_hash": "0x1df8280d0f958b6085b050d8d4a0f216fd66966606a738d0f8ad7a00013967fa",
+        "output_hash": "0x841fcec9f18489fc883cd857c9f043c7337d791b069beb8db4d8928325bc38d0",
+        "input": {
+          "previous_step_hash": "0xa65321d214f1d53642ae1bd91fa3b96b8f3261d7aefa4c9762b849f7b2094a14"
+        },
+        "output": {
+          "team_allocation_pct": 10,
+          "has_lockup_claim": true,
+          "lockup_years": 0.5,
+          "audit_claimed": false,
+          "audit_firm": null,
+          "high_yield_promise": false,
+          "yield_pct": null,
+          "statements": [
+            {
+              "field": "team_allocation",
+              "value_pct": 10,
+              "raw_snippet": "团队/Team 占比 10%"
+            },
+            {
+              "field": "lockup",
+              "value_years": 0.5,
+              "raw_snippet": "锁仓 6 个月"
+            }
+          ]
+        },
+        "timestamp": 1788576928797,
+        "timestamp_ms": 1788576928797,
+        "previous_step_hash": "0xa65321d214f1d53642ae1bd91fa3b96b8f3261d7aefa4c9762b849f7b2094a14",
+        "hash_content": "{\"agent\":\"DocAgent\",\"current_step\":\"DOC_PARSING\",\"evidence\":[],\"input_hash\":\"0x1df8280d0f958b6085b050d8d4a0f216fd66966606a738d0f8ad7a00013967fa\",\"message\":\"DocAgent 完成文档解析，提取声明 2 条。\",\"output_hash\":\"0x841fcec9f18489fc883cd857c9f043c7337d791b069beb8db4d8928325bc38d0\",\"source\":\"AI\",\"step_index\":2,\"task_id\":\"review_fractional\"}",
+        "step_hash": "0x096ac05d5cd9664952b47da9d916ef4c95f457547f3cea418861eefe07fb32a3",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_fractional",
+        "step_index": 3,
+        "source": "AI",
+        "agent": "CrossCheckAgent",
+        "current_step": "CROSS_CHECKING",
+        "message": "CrossCheckAgent 完成文档-链上交叉核验，发现矛盾 5 条。",
+        "evidence": [
+          "Whitepaper tokenomics vs chain team_wallet_pct=82",
+          "Whitepaper lockup claim vs chain has_timelock=False",
+          "chain liquidity_locked=False; lp_owner=deployer 0x4f3b...",
+          "chain source_similarity_pct=92",
+          "chain abnormal_fund_flow=True; target=exchange_hot_wallet"
+        ],
+        "input_hash": "0xe83b63ce1d235a2baed928e9691d0ee98b3044dc0c8edfa165dc4f22a7b12b25",
+        "output_hash": "0xdd267b8331b19d5eb08d966f1d119b41fc7af5d2bfe945661f0ad375c1db985c",
+        "input": {
+          "previous_step_hash": "0x096ac05d5cd9664952b47da9d916ef4c95f457547f3cea418861eefe07fb32a3"
+        },
+        "output": [
+          {
+            "category": "TOKENOMICS_MISMATCH",
+            "severity": "CRITICAL",
+            "title": "代币分配与智能合约逻辑矛盾",
+            "description": "文档声明团队持股 10%，实际链上团队钱包占比 82%。",
+            "evidence": "Whitepaper tokenomics vs chain team_wallet_pct=82",
+            "risk_weight": 20
+          },
+          {
+            "category": "TIMELOCK_MISSING",
+            "severity": "CRITICAL",
+            "title": "锁仓承诺与链上合约约束矛盾",
+            "description": "文档承诺锁仓 0.5 年，但链上合约未发现 TimeLock 约束。",
+            "evidence": "Whitepaper lockup claim vs chain has_timelock=False",
+            "risk_weight": 15
+          },
+          {
+            "category": "LIQUIDITY_UNLOCKED",
+            "severity": "CRITICAL",
+            "title": "流动性池权限未锁定",
+            "description": "链上数据显示初始流动性未锁定，存在撤池或转移风险。",
+            "evidence": "chain liquidity_locked=False; lp_owner=deployer 0x4f3b...",
+            "risk_weight": 15
+          },
+          {
+            "category": "CODE_FORKED",
+            "severity": "HIGH",
+            "title": "源码与高风险项目高度相似",
+            "description": "合约源码与已知高风险项目相似度约 92%，需要人工复核。",
+            "evidence": "chain source_similarity_pct=92",
+            "risk_weight": 10
+          },
+          {
+            "category": "FUND_FLOW_ABNORMAL",
+            "severity": "HIGH",
+            "title": "资金流向异常",
+            "description": "链上交易显示项目资金流向交易所热钱包或其他高风险地址。",
+            "evidence": "chain abnormal_fund_flow=True; target=exchange_hot_wallet",
+            "risk_weight": 10
+          }
+        ],
+        "timestamp": 1788576928797,
+        "timestamp_ms": 1788576928797,
+        "previous_step_hash": "0x096ac05d5cd9664952b47da9d916ef4c95f457547f3cea418861eefe07fb32a3",
+        "hash_content": "{\"agent\":\"CrossCheckAgent\",\"current_step\":\"CROSS_CHECKING\",\"evidence\":[\"Whitepaper tokenomics vs chain team_wallet_pct=82\",\"Whitepaper lockup claim vs chain has_timelock=False\",\"chain liquidity_locked=False; lp_owner=deployer 0x4f3b...\",\"chain source_similarity_pct=92\",\"chain abnormal_fund_flow=True; target=exchange_hot_wallet\"],\"input_hash\":\"0xe83b63ce1d235a2baed928e9691d0ee98b3044dc0c8edfa165dc4f22a7b12b25\",\"message\":\"CrossCheckAgent 完成文档-链上交叉核验，发现矛盾 5 条。\",\"output_hash\":\"0xdd267b8331b19d5eb08d966f1d119b41fc7af5d2bfe945661f0ad375c1db985c\",\"source\":\"AI\",\"step_index\":3,\"task_id\":\"review_fractional\"}",
+        "step_hash": "0xd227b5f8e5d7dbb3dcf8130252d2ccac70683e9d96a68e2fd38ea8f5ab96b223",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_fractional",
+        "step_index": 4,
+        "source": "AI",
+        "agent": "RiskAgent",
+        "current_step": "RISK_SCORING",
+        "message": "RiskAgent 综合打分：70 分，风险等级 HIGH。",
+        "evidence": [],
+        "input_hash": "0x7f7a23ee6761d7064f9b953c2ede79c00377a61908bdd9b04130188555e1023d",
+        "output_hash": "0xda5b936f6d3ffb07e4fbf2017a5647272675020b401fa1dd676e5bac8fc338fe",
+        "input": {
+          "previous_step_hash": "0xd227b5f8e5d7dbb3dcf8130252d2ccac70683e9d96a68e2fd38ea8f5ab96b223"
+        },
+        "output": {
+          "risk_score": 70,
+          "risk_level": "HIGH",
+          "risk_reasons": [
+            "代币分配与智能合约逻辑矛盾：文档声明团队持股 10%，实际链上团队钱包占比 82%。",
+            "锁仓承诺与链上合约约束矛盾：文档承诺锁仓 0.5 年，但链上合约未发现 TimeLock 约束。",
+            "流动性池权限未锁定：链上数据显示初始流动性未锁定，存在撤池或转移风险。",
+            "源码与高风险项目高度相似：合约源码与已知高风险项目相似度约 92%，需要人工复核。",
+            "资金流向异常：链上交易显示项目资金流向交易所热钱包或其他高风险地址。"
+          ]
+        },
+        "timestamp": 1788576928797,
+        "timestamp_ms": 1788576928797,
+        "previous_step_hash": "0xd227b5f8e5d7dbb3dcf8130252d2ccac70683e9d96a68e2fd38ea8f5ab96b223",
+        "hash_content": "{\"agent\":\"RiskAgent\",\"current_step\":\"RISK_SCORING\",\"evidence\":[],\"input_hash\":\"0x7f7a23ee6761d7064f9b953c2ede79c00377a61908bdd9b04130188555e1023d\",\"message\":\"RiskAgent 综合打分：70 分，风险等级 HIGH。\",\"output_hash\":\"0xda5b936f6d3ffb07e4fbf2017a5647272675020b401fa1dd676e5bac8fc338fe\",\"source\":\"AI\",\"step_index\":4,\"task_id\":\"review_fractional\"}",
+        "step_hash": "0x2d1da9dff5da5c5bee77796ff2fb1eef547e16d407e814810af3de990b7631cb",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_fractional",
+        "step_index": 5,
+        "source": "BACKEND",
+        "agent": "ReportBuilder",
+        "current_step": "REPORT_ASSEMBLED",
+        "message": "结构化审计报告已组装。",
+        "evidence": [],
+        "input_hash": "0xeb14405be598249926930d09a62deaaa62f62a1969df9e3a7fcf952ead9f6ea2",
+        "output_hash": "0x226dba4af7aa52928ddb39d07d6a4a1745d552391d0c9c715d36b3d68fc3b28c",
+        "input": {
+          "step_hashes": [
+            "0xecea4854dfb156817e0895bdf1655c40052eb72971a629dff142f77c1b096d10",
+            "0xa65321d214f1d53642ae1bd91fa3b96b8f3261d7aefa4c9762b849f7b2094a14",
+            "0x096ac05d5cd9664952b47da9d916ef4c95f457547f3cea418861eefe07fb32a3",
+            "0xd227b5f8e5d7dbb3dcf8130252d2ccac70683e9d96a68e2fd38ea8f5ab96b223",
+            "0x2d1da9dff5da5c5bee77796ff2fb1eef547e16d407e814810af3de990b7631cb"
+          ]
+        },
+        "output": {
+          "task_id": "review_fractional",
+          "risk_score": 70,
+          "findings_count": 5
+        },
+        "timestamp": 1788576928797,
+        "timestamp_ms": 1788576928797,
+        "previous_step_hash": "0x2d1da9dff5da5c5bee77796ff2fb1eef547e16d407e814810af3de990b7631cb",
+        "hash_content": "{\"agent\":\"ReportBuilder\",\"current_step\":\"REPORT_ASSEMBLED\",\"evidence\":[],\"input_hash\":\"0xeb14405be598249926930d09a62deaaa62f62a1969df9e3a7fcf952ead9f6ea2\",\"message\":\"结构化审计报告已组装。\",\"output_hash\":\"0x226dba4af7aa52928ddb39d07d6a4a1745d552391d0c9c715d36b3d68fc3b28c\",\"source\":\"BACKEND\",\"step_index\":5,\"task_id\":\"review_fractional\"}",
+        "step_hash": "0xe1f73b842e7f825b94a1c957b108765fcd6a296bb1db7c0d35443fe0f36aa51f",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      },
+      {
+        "task_id": "review_fractional",
+        "step_index": 6,
+        "source": "BACKEND",
+        "agent": "ProofCompiler",
+        "current_step": "PROOF_MANIFEST_COMPILED",
+        "message": "七步证明清单已编译并校验。",
+        "evidence": [
+          "prior_steps:6",
+          "report_payload_hash:0xe723aa837e97ae50f7226bb863b0b6d410b12ddc802c08b0a7b5e9270d28ee16"
+        ],
+        "input_hash": "0xfc6c0635873ea61d8dec699639ec71864dfe56bee03ad156d7f1650315f96d9d",
+        "output_hash": "0xafca5d0112ba66631ceeffb6321d362d787fe0650f56be2fc81d8f821ac307c2",
+        "input": {
+          "ordered_prior_step_hashes": [
+            "0xecea4854dfb156817e0895bdf1655c40052eb72971a629dff142f77c1b096d10",
+            "0xa65321d214f1d53642ae1bd91fa3b96b8f3261d7aefa4c9762b849f7b2094a14",
+            "0x096ac05d5cd9664952b47da9d916ef4c95f457547f3cea418861eefe07fb32a3",
+            "0xd227b5f8e5d7dbb3dcf8130252d2ccac70683e9d96a68e2fd38ea8f5ab96b223",
+            "0x2d1da9dff5da5c5bee77796ff2fb1eef547e16d407e814810af3de990b7631cb",
+            "0xe1f73b842e7f825b94a1c957b108765fcd6a296bb1db7c0d35443fe0f36aa51f"
+          ],
+          "report_payload_hash": "0xe723aa837e97ae50f7226bb863b0b6d410b12ddc802c08b0a7b5e9270d28ee16"
+        },
+        "output": {
+          "manifest_version": "proof-manifest-v1",
+          "hash_algorithm": "ethereum-keccak256",
+          "hash_version": "keccak-v1",
+          "ordered_steps": [
+            "INPUT_VALIDATED",
+            "CHAIN_FETCHED",
+            "DOC_PARSING",
+            "CROSS_CHECKING",
+            "RISK_SCORING",
+            "REPORT_ASSEMBLED",
+            "PROOF_MANIFEST_COMPILED"
+          ],
+          "prior_step_count": 6,
+          "final_step_count": 7,
+          "report_payload_hash": "0xe723aa837e97ae50f7226bb863b0b6d410b12ddc802c08b0a7b5e9270d28ee16"
+        },
+        "timestamp": 1788576928797,
+        "timestamp_ms": 1788576928797,
+        "previous_step_hash": "0xe1f73b842e7f825b94a1c957b108765fcd6a296bb1db7c0d35443fe0f36aa51f",
+        "hash_content": "{\"agent\":\"ProofCompiler\",\"current_step\":\"PROOF_MANIFEST_COMPILED\",\"evidence\":[\"prior_steps:6\",\"report_payload_hash:0xe723aa837e97ae50f7226bb863b0b6d410b12ddc802c08b0a7b5e9270d28ee16\"],\"input_hash\":\"0xfc6c0635873ea61d8dec699639ec71864dfe56bee03ad156d7f1650315f96d9d\",\"message\":\"七步证明清单已编译并校验。\",\"output_hash\":\"0xafca5d0112ba66631ceeffb6321d362d787fe0650f56be2fc81d8f821ac307c2\",\"source\":\"BACKEND\",\"step_index\":6,\"task_id\":\"review_fractional\"}",
+        "step_hash": "0xf80da69365908cce01b36c06c3f729641b905b80e16ffa9e22c8e99957c8ffdc",
+        "hash_algorithm": "ethereum-keccak256",
+        "hash_version": "keccak-v1"
+      }
+    ],
+    "step_hashes": [
+      "0xecea4854dfb156817e0895bdf1655c40052eb72971a629dff142f77c1b096d10",
+      "0xa65321d214f1d53642ae1bd91fa3b96b8f3261d7aefa4c9762b849f7b2094a14",
+      "0x096ac05d5cd9664952b47da9d916ef4c95f457547f3cea418861eefe07fb32a3",
+      "0xd227b5f8e5d7dbb3dcf8130252d2ccac70683e9d96a68e2fd38ea8f5ab96b223",
+      "0x2d1da9dff5da5c5bee77796ff2fb1eef547e16d407e814810af3de990b7631cb",
+      "0xe1f73b842e7f825b94a1c957b108765fcd6a296bb1db7c0d35443fe0f36aa51f",
+      "0xf80da69365908cce01b36c06c3f729641b905b80e16ffa9e22c8e99957c8ffdc"
+    ],
+    "reasoning_step_hashes": [
+      "0x096ac05d5cd9664952b47da9d916ef4c95f457547f3cea418861eefe07fb32a3",
+      "0xd227b5f8e5d7dbb3dcf8130252d2ccac70683e9d96a68e2fd38ea8f5ab96b223",
+      "0x2d1da9dff5da5c5bee77796ff2fb1eef547e16d407e814810af3de990b7631cb"
+    ],
+    "backend_step_hashes": [
+      "0xecea4854dfb156817e0895bdf1655c40052eb72971a629dff142f77c1b096d10",
+      "0xa65321d214f1d53642ae1bd91fa3b96b8f3261d7aefa4c9762b849f7b2094a14",
+      "0xe1f73b842e7f825b94a1c957b108765fcd6a296bb1db7c0d35443fe0f36aa51f",
+      "0xf80da69365908cce01b36c06c3f729641b905b80e16ffa9e22c8e99957c8ffdc"
+    ],
+    "manifest_step_hash": "0xf80da69365908cce01b36c06c3f729641b905b80e16ffa9e22c8e99957c8ffdc",
+    "report_payload_hash": "0xe723aa837e97ae50f7226bb863b0b6d410b12ddc802c08b0a7b5e9270d28ee16",
+    "merkle_root": "0x2d6a963c530ec51f7599e31fd27aa5f13aeca79d630e82228a9e63e3271c6f06",
+    "report_hash": "0x4afda4e241872653f19aeb902afc4be97c863005ac28455cf463f49aca3ba042"
+  },
+  "disclaimer": "本报告由 FluxAudit 辅助诊断生成，基于测试与公开数据，不构成财务投资建议。"
+}

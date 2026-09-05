@@ -1,0 +1,7 @@
+FluxAudit team test bundle
+Date: 2026-09-05
+Git commit: adf92ea
+Mode: one-click local full-project test package
+Default chain data: deterministic mock fallback
+Local proof: seven-step Ethereum keccak256 + manifest + Merkle root + report hash
+Sepolia attestation: not configured (expected)

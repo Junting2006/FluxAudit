@@ -1,0 +1,41 @@
+{
+  "task_id": "task_vector_001",
+  "meta": {
+    "model_version": "fluxaudit-vector-v1",
+    "data_sources": [
+      "Sepolia RPC",
+      "Whitepaper",
+      "Etherscan API"
+    ],
+    "timestamp": 1700000000
+  },
+  "summary": {
+    "overall_risk_score": 85,
+    "risk_level": "HIGH",
+    "verdict": "代币分配不符"
+  },
+  "findings": [
+    {
+      "category": "TOKENOMICS_MISMATCH",
+      "severity": "CRITICAL",
+      "title": "代币分配不一致",
+      "description": "文档声明 10%，链上为 82%。",
+      "evidence": "Whitepaper vs chain"
+    }
+  ],
+  "proof_data": {
+    "reasoning_step_hashes": [
+      "0xa27fb549e09d4d5f293f310b641bbff8f7d253d5e481f4edd23bdf911681060b",
+      "0xa617adbacb2694ef127f1f1a215097ab4f4d4446465773f8a8e5a5d9344b6023",
+      "0x800a9e601ef13cf9d72895313e652de9ea2a4d1c9113ee6449ed09798061d22f"
+    ],
+    "backend_step_hashes": [
+      "0x0b18ec444cee43ee4db874adeb4b41a89a436ccfa52cfa79804cb9b4cc544c9d",
+      "0x7b237baeb45e73840417711cdf68cdd640416880f3c405505d41cbf5344ad5f8",
+      "0x6528b9c518a0134c73361aa56dfea8fedd975edd0a9c3c52b76e2cba66b483eb"
+    ],
+    "merkle_root": "0x8922629a31f3edd81d0aef2c408c61c7a5aae7c5ef99e35021cfd24541a9c3e5",
+    "report_hash": "0x35ed273d3f9bdff1e5f7fa110fff49c51c28e52525a6708ea9cca1e7bf5e200b"
+  },
+  "disclaimer": "本报告由 FluxAudit 辅助诊断生成，基于测试与公开数据，不构成财务投资建议。"
+}

@@ -1,0 +1,49 @@
+{
+  "name": "@fluxaudit/member5-web3",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./abi/Attestation.json": "./abi/Attestation.json"
+  },
+  "files": [
+    "dist",
+    "abi",
+    "contracts",
+    "fixtures",
+    "HASH_SPEC.md",
+    "成员5_Web3联调确认单_v0.1.md",
+    "成员5_Web3零基础上手手册.md",
+    "群内交付话术.md"
+  ],
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "packageManager": "npm@11.12.1",
+  "scripts": {
+    "build": "npm run build:contracts && npm run build:sdk",
+    "build:contracts": "hardhat --build-profile production build",
+    "build:sdk": "tsc -p tsconfig.sdk.json",
+    "test": "npm run build:sdk && hardhat test",
+    "typecheck": "tsc --noEmit",
+    "demo:local": "hardhat run scripts/local-demo.ts",
+    "deploy:sepolia": "hardhat --build-profile production --network sepolia run scripts/deploy.ts",
+    "pack:handoff": "npm run build && npm pack"
+  },
+  "dependencies": {
+    "ethers": "6.17.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "4.0.15",
+    "@nomicfoundation/hardhat-node-test-runner": "3.1.0",
+    "@types/node": "24.10.0",
+    "hardhat": "3.15.0",
+    "typescript": "7.0.2"
+  }
+}

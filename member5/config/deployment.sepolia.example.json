@@ -1,0 +1,10 @@
+{
+  "status": "AWAITING_DEPLOYMENT",
+  "chainId": 11155111,
+  "network": "sepolia",
+  "contractAddress": null,
+  "trustedAuditor": null,
+  "deploymentTransactionHash": null,
+  "blockNumber": null,
+  "etherscanUrl": null
+}
