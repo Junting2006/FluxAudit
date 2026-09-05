@@ -1,0 +1,35 @@
+{
+  "hash_algorithm": "ethereum-keccak256",
+  "hash_version": "keccak-v1",
+  "encoding": "UTF8(previous_step_hash + '|' + hash_content + '|' + timestamp_ms)",
+  "canonical_json_vector": {
+    "rule": "recursively convert integral floats to integers before sorted compact JSON",
+    "canonical_json": "{\"lockup_years\":2,\"nested\":[0,true,null,\"2.0\",{\"negative\":-3}],\"ratio\":2.5}",
+    "keccak256": "0xae69b1383574e561399317147549ebb6bdec10e6f5deebcade7893a0802ff8df"
+  },
+  "steps": [
+    {
+      "previous_step_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "hash_content": "step0",
+      "timestamp_ms": 1000,
+      "step_hash": "0xe42068d3220a57e046d1b1ed228caecc8ee3380d36d3b5cf79a2ad14a43c144f"
+    },
+    {
+      "previous_step_hash": "0xe42068d3220a57e046d1b1ed228caecc8ee3380d36d3b5cf79a2ad14a43c144f",
+      "hash_content": "step1",
+      "timestamp_ms": 1001,
+      "step_hash": "0x19af4ab6f5cc2955a49df1793f56ec5215c92939b4c4e191980e40fa3c40730f"
+    },
+    {
+      "previous_step_hash": "0x19af4ab6f5cc2955a49df1793f56ec5215c92939b4c4e191980e40fa3c40730f",
+      "hash_content": "step2",
+      "timestamp_ms": 1002,
+      "step_hash": "0xbcfac94687060b6108d801a0c9aceb205dc5c9670bdf1c711bf5d9c46b0e25a8"
+    }
+  ],
+  "merkle_roots": {
+    "one_step": "0xc8a222989ed17d1216447ec1d713a3da0f57ddd28ee1aeb9ee75d3b6b41211bf",
+    "two_steps": "0x648e69aec6e40d83f9b9f961503814d9e320a7c37321dcf8fd88348699dc4beb",
+    "three_steps": "0xb49ba32f5172c6f383ced7bfc7dc1ffc847db1427b3807121a975876a7a2d09a"
+  }
+}

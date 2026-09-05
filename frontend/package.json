@@ -1,0 +1,27 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/prepare-sites-build.mjs",
+    "preview": "vite preview",
+    "test": "npm run test:proof && npm run test:task-scope && npm run test:member5 && npm run test:sites",
+    "test:member5": "node --test tests/member5-integration.test.mjs",
+    "test:proof": "node --test tests/proof-report.test.mjs",
+    "test:task-scope": "node --test tests/task-scope.test.mjs",
+    "test:sites": "node --test tests/sites-worker.test.mjs"
+  },
+  "dependencies": {
+    "@fluxaudit/member5-web3": "file:vendor/fluxaudit-member5-web3-0.2.0.tgz",
+    "@fontsource-variable/archivo": "5.3.0",
+    "@fontsource-variable/azeret-mono": "5.3.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "@vitejs/plugin-react": "5.0.4",
+    "ethers": "^6.17.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "vite": "6.4.2"
+  }
+}
